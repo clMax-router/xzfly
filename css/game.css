@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    
+    color: #333;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    position: absolute;
+    height: 100vh;
+    width: 20rem;
+    background-image: url("../img/backimg.jpg");
+    background-size: cover;
+    cursor: none!important;
+    right: 23.5rem;
+}
+
+.feiji{
+    position: absolute;
+    bottom: 0;
+    right: calc(17rem - 50%);
+    -webkit-user-drag: none;
+}
