@@ -3,8 +3,9 @@ let feiji = document.getElementById('feiji')
 let contHei = $('#cont').height()
 let contWth = $('#cont').width()
 // let fylFlag = false
-let keyFlag = true
-let timeout = ''
+let keyFlag = { 'a': true, 'A': true, 's': true, 'S': true, 'd': true, 'w': true, 'W': true }
+let timeout = {}
+// let thisKeyArr = ''Arr
 
 // 测量与父容器绝对定位的值
 let testHei = () => {
@@ -29,66 +30,80 @@ let imgChange = (e) => {
 
 }
 
+// 飞机移动
 let move = (event) => {
     //- $(feiji).outerWidth() ) + 6
     var e = event.key
     if (e == 'w' || e == 'W') {
         // 上
-        if (keyFlag) {
-            timeout = setInterval(() => {
+        if (keyFlag[e]) {
+            // thisKey = e
+            timeout[e] = setInterval(() => {
                 let { top1 } = testHei()
-                if ((top1 - 10) < 0) {
-                    return
+                if (!((top1 - 6) < 0)) {
+                    feiji.style.top = top1 - 6 + 'px'
                 }
-                feiji.style.top = top1 - 10 + 'px'
             }, 50)
         }
     } else if (e == 's' || e == 'S') {
         // 下
-        if (keyFlag) {
-            timeout = setInterval(() => {
+        if (keyFlag[e]) {
+            // thisKey = e
+            timeout[e] = setInterval(() => {
                 let { top1 } = testHei()
-                if ((top1 + 10) > (contHei - $(feiji).height())) {
-                    return
+                if (!((top1 + 6) > (contHei - $(feiji).height()))) {
+                    feiji.style.top = top1 + 6 + 'px'
                 }
-                feiji.style.top = top1 + 10 + 'px'
             }, 50)
         }
     } else if (e == 'a' || e == 'A') {
         // 左
         // console.log( $(feiji).position() )   
-        if (keyFlag) {
+        if (keyFlag[e]) {
+            // thisKey = e
             imgChange(e) // 修改图片
-            timeout = setInterval(() => {
+            timeout[e] = setInterval(() => {
                 let { left } = testHei()
-                if (left - 6 < 0) {
-                    return
+                if (!(left - 6 < 0)) {
+                    feiji.style.left = left - 6 + 'px'
                 }
-                feiji.style.left = left - 6 + 'px'
             }, 50)
         }
     } else if (e == 'd' || e == 'D') {
         // 右
-        if (keyFlag) {
+        // thisKey = e
+        if (keyFlag[e]) {
             imgChange(e)
-            timeout = setInterval(() => {
+            timeout[e] = setInterval(() => {
                 let { left } = testHei()
-                if (left + 6 > contWth - $(feiji).width()) {
-                    return
+                if (!(left + 6 > contWth - $(feiji).width())) {
+                    feiji.style.left = left + 6 + 'px'
                 }
-                feiji.style.left = left + 6 + 'px'
             }, 50)
         }
     }
 }
 
+// 键盘按下
 document.onkeydown = (event) => {
+    console.log(event)
     move(event)
-    keyFlag = false
+    keyFlag[event.key] = false
 }
 
+// 键盘抬起
 document.onkeyup = (event) => {
-    imgChange('center')
+    keyFlag[event.key] = true
+    let changeFlag = true
+    for (let key in keyFlag) {
+        if (!keyFlag[key]) {    
+            console.log(!keyFlag[key])
+            changeFlag = false
+        }
+    }
+    if (changeFlag) {
+        imgChange('center')
+    }
     if (event.key == 'd' || event.key == 'D') {
         let { left } = testHei()
         if ((left + $(feiji).width()) > contWth) {
@@ -96,6 +111,6 @@ document.onkeyup = (event) => {
             feiji.style.left = contWth - $(feiji).width() + 'px'
         }
     }
-    clearInterval(timeout)
-    keyFlag = true
+    clearInterval(timeout[event.key])
+    
 }

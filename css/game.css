@@ -26,4 +26,5 @@ html{
     bottom: 0;
     right: calc(17rem - 50%);
     -webkit-user-drag: none;
+    /* -webkit-transform: translateZ(0); */
 }
