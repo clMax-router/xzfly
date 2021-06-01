@@ -118,17 +118,20 @@ let zidanMove = (dom) => {
 // 键盘抬起
 document.onkeyup = (event) => {
     keyFlag[event.key] = true
-    let changeFlag = true
-    for (let key in keyFlag) {
-        // if ((key == 'a' || key == 'A') || (key == 'd' || key == 'D')) {
-        if (!keyFlag[key]) {
-            changeFlag = false
-        }
-        // }
-    }
-    if (changeFlag) {
+    let changeFlag = 0
+    if(keyFlag['a'] && keyFlag['d'] ){
         imgChange('center')
     }
+    // for (let key in keyFlag) {
+    //     // if ((key == 'a' || key == 'A') || (key == 'd' || key == 'D')) {
+    //     if (!keyFlag[key]) {
+    //         changeFlag++
+    //     }
+    //     // }
+    // }
+    // if (changeFlag) {
+        
+    // }
     if (event.key == 'd' || event.key == 'D') {
         let { left } = testHei(feiji)
         if ((left + $(feiji).width()) > contWth) {
